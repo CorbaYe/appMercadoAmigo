@@ -9,9 +9,9 @@ import java.sql.SQLException;
  */
 public class Conexion {
      // Configuración de conexión
-    String url = "jdbc:mysql://localhost:3306/nombreBaseDatos"; // Reemplaza "nombreBaseDatos" por el nombre de tu base de datos
+    String url = "jdbc:mysql://localhost:3306/dbs_mercado_amigo"; // Reemplaza "nombreBaseDatos" por el nombre de tu base de datos
     String usuario = "root"; // Reemplaza con tu usuario de MySQL
-    String contraseña = "tuContraseña"; // Reemplaza con tu contraseña de MySQL
+    String contraseña = "admin"; // Reemplaza con tu contraseña de MySQL
     Connection conexion = null;
 
     public Conexion(){
