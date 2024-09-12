@@ -4,7 +4,12 @@
  */
 package vistas;
 
-import modelo.Conexion;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import logica.Cliente;
+import logica.Usuario;
 
 /**
  *
@@ -17,6 +22,7 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
+        this.setLocationRelativeTo(this);
     }
 
     /**
@@ -31,14 +37,14 @@ public class Login extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         lbl_cerrar = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        lbl_registrarse = new javax.swing.JLabel();
+        txt_nombre_usuario = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btn_iniciar_sesion = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        txt_contrasenha = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -61,17 +67,20 @@ public class Login extends javax.swing.JFrame {
         });
         jPanel1.add(lbl_cerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 0, -1, -1));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
-        jLabel3.setText("¿No tienes cuenta? Registrate aquí");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 420, -1, -1));
+        lbl_registrarse.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        lbl_registrarse.setForeground(new java.awt.Color(0, 153, 255));
+        lbl_registrarse.setText("¿No tienes cuenta? Registrate aquí");
+        lbl_registrarse.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbl_registrarse.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbl_registrarseMouseClicked(evt);
+            }
+        });
+        jPanel1.add(lbl_registrarse, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 420, -1, -1));
 
-        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jTextField1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 170, 302, -1));
-
-        jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jTextField2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jPanel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 270, 302, -1));
+        txt_nombre_usuario.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txt_nombre_usuario.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jPanel1.add(txt_nombre_usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 170, 302, -1));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 3)); // NOI18N
         jLabel4.setText("_____________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________");
@@ -83,11 +92,16 @@ public class Login extends javax.swing.JFrame {
         jLabel5.setToolTipText("");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 190, -1, 20));
 
-        jButton1.setBackground(new java.awt.Color(0, 153, 255));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Iniciar sesión");
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 370, 210, 40));
+        btn_iniciar_sesion.setBackground(new java.awt.Color(0, 153, 255));
+        btn_iniciar_sesion.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btn_iniciar_sesion.setForeground(new java.awt.Color(255, 255, 255));
+        btn_iniciar_sesion.setText("Iniciar sesión");
+        btn_iniciar_sesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_iniciar_sesionActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btn_iniciar_sesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 370, 210, 40));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel6.setText("Nombre de usuario");
@@ -96,6 +110,10 @@ public class Login extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel7.setText("Contraseña");
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 240, -1, -1));
+
+        txt_contrasenha.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txt_contrasenha.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jPanel1.add(txt_contrasenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 270, 300, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -115,6 +133,31 @@ public class Login extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_lbl_cerrarMouseClicked
 
+    private void lbl_registrarseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_registrarseMouseClicked
+        this.setVisible(false);
+        Registro ventanaRegistro = new Registro();
+        ventanaRegistro.setVisible(true);
+    }//GEN-LAST:event_lbl_registrarseMouseClicked
+
+    private void btn_iniciar_sesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_iniciar_sesionActionPerformed
+        try {
+            String pass = new String(txt_contrasenha.getPassword());
+            iniciar_sesion(txt_nombre_usuario.getText(), pass);
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btn_iniciar_sesionActionPerformed
+
+    private void iniciar_sesion(String usuario, String clave) throws SQLException{
+        if (!usuario.equals("") && !clave.equals("")) {
+            Usuario cliente = new Cliente(usuario,clave); 
+            if (cliente.iniciar_sesion()) {
+                this.setVisible(false);
+                Home_Cliente ventanaHome = new Home_Cliente();
+                ventanaHome.setVisible(true);
+            }
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -151,16 +194,16 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btn_iniciar_sesion;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel lbl_cerrar;
+    private javax.swing.JLabel lbl_registrarse;
+    private javax.swing.JPasswordField txt_contrasenha;
+    private javax.swing.JTextField txt_nombre_usuario;
     // End of variables declaration//GEN-END:variables
 }

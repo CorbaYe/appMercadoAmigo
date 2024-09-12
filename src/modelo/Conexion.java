@@ -8,31 +8,33 @@ import java.sql.SQLException;
  * @author Temporal
  */
 public class Conexion {
-     // Configuración de conexión
-    String url = "jdbc:mysql://localhost:3306/dbs_mercado_amigo"; // Reemplaza "nombreBaseDatos" por el nombre de tu base de datos
-    String usuario = "root"; // Reemplaza con tu usuario de MySQL
-    String contraseña = "admin"; // Reemplaza con tu contraseña de MySQL
-    Connection conexion = null;
+    String url = "jdbc:mysql://localhost:3306/dbs_mercado_amigo"; 
+    String usuario = "root"; 
+    String contraseña = "admin"; 
+    Connection conn;
 
     public Conexion(){
         try {
-        // Crear la conexión a la base de datos
-        conexion = DriverManager.getConnection(url, usuario, contraseña);
-        System.out.println("Conexión exitosa a la base de datos!");
-
-        // Aquí puedes añadir el código para interactuar con la base de datos
+            conn = DriverManager.getConnection(url, usuario, contraseña);
         } catch (SQLException e) {
-            System.out.println("Error al conectar a la base de datos.");
             e.printStackTrace();
-        } finally {
-            // Cerrar la conexión
-            if (conexion != null) {
-                try {
-                    conexion.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+        }
+    }
+    
+    public void closeConn() {
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
     }
+    
+    public Connection getConn() {
+        return conn;
+    }
+
+    
+    
 }
